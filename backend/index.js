@@ -21,5 +21,6 @@ const PORT = process.env.PORT || 4000;
 //Port Define *//
 app.listen(PORT, () => {
   DbConfig();
+  
   console.log(`Server is running on port ${PORT}`);
 });
