@@ -2,6 +2,7 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import userRoute from "./routes/user.route.js";
 import { DbConfig } from "./config/Dbconfig.js";
 const app = express();
 configDotenv();
@@ -19,8 +20,11 @@ app.use(cors(corsOptions));
 //Port Define *//
 const PORT = process.env.PORT || 4000;
 //Port Define *//
+
+//API
+app.use("/api/v1/user", userRoute);
+
 app.listen(PORT, () => {
   DbConfig();
-  
   console.log(`Server is running on port ${PORT}`);
 });
