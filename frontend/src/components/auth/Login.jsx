@@ -8,13 +8,19 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+import store from "@/redux/store";
+import { Loader, Loader2 } from "lucide-react";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const changeEventHandler = (e) => {
     console.log({ ...input }); //Purane values ko copy karo
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -23,6 +29,7 @@ const Login = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +43,8 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -97,9 +106,17 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full cursor-pointer py-3 my-4">
-            Login
-          </Button>
+          {loading ? (
+            <Button className="w-full my-4">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please Wait
+            </Button>
+          ) : (
+            <Button type="submit" className="w-full cursor-pointer py-3 my-4">
+              Login
+            </Button>
+          )}
+
           <span>
             No Account<Link to="/signup">SignUp</Link>
           </span>
