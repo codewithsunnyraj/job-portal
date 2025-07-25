@@ -1,0 +1,6 @@
+console.log(user?.address?.city);
+Agar user hai → check karega address
+
+Agar address hai → check karega city
+
+Agar kuch bhi undefined mila → undefined return karega, error nahi dega

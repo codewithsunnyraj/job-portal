@@ -1,27 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
 const Login = () => {
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+  const navigate = useNavigate();
+  const changeEventHandler = (e) => {
+    console.log({ ...input }); //Purane values ko copy karo
+    setInput({ ...input, [e.target.name]: e.target.value });
+    console.log({ ...input });
+  };
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div>
       <Navbar />
       <div className="flex my-32 justify-center items-center">
-        <form className="border w-1/2 rounded-lg p-8">
+        <form className="border w-1/2 rounded-lg p-8" onSubmit={submitHandler}>
           <div>
             <h4 className="text-2xl text-center font-bold">Login</h4>
           </div>
           <div className="my-4">
             <Label className="font-bold">Email</Label>
-            <Input placeholder="Enter EmailId" type="email" />
+            <Input
+              placeholder="Enter EmailId"
+              name="email"
+              id="email"
+              value={input.email}
+              onChange={changeEventHandler}
+              type="email"
+            />
           </div>
 
           <div className="my-4">
             <Label className="font-bold">Password</Label>
-            <Input placeholder="Enter Password" type="password" />
+            <Input
+              placeholder="Enter Password"
+              name="password"
+              id="password"
+              onChange={changeEventHandler}
+              value={input.password}
+              type="password"
+            />
           </div>
           <div>
             <RadioGroup className="flex mt-8 mb-5 gap-8">
@@ -30,7 +76,9 @@ const Login = () => {
                   type="radio"
                   name="role"
                   value="student"
+                  checked={input.role === "student"}
                   id="student"
+                  onChange={changeEventHandler}
                   className="cursor-pointer w-6 h-6"
                 />
                 <Label htmlFor="student">Student</Label>
@@ -40,6 +88,8 @@ const Login = () => {
                   type="radio"
                   name="role"
                   value="recuiter"
+                  onChange={changeEventHandler}
+                  checked={input.role === "recuiter"}
                   id="recuiter"
                   className="cursor-pointer h-6 w-6"
                 />
@@ -47,7 +97,7 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full py-3 my-4">
+          <Button type="submit" className="w-full cursor-pointer py-3 my-4">
             Login
           </Button>
           <span>
