@@ -21,13 +21,13 @@ const Navbar = () => {
           <div className="flex items-center gap-6">
             <ul className="space-x-3 flex text-xl font-semibold">
               <li>
-                <Link>Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link>Jobs</Link>
+                <Link to="/jobs">Jobs</Link>
               </li>
               <li>
-                <Link>Browse</Link>
+                <Link to="/browse">Browse</Link>
               </li>
             </ul>
             <div className="cursor-pointer">
