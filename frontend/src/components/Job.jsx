@@ -3,7 +3,10 @@ import { Button } from "./ui/button";
 import { FaBookmark } from "react-icons/fa6";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 const Job = () => {
+  const navigate = useNavigate();
+  const jobId = "dfgdfg dfgdfgdg";
   return (
     <div className="p-5 rounded-sm shadow-xl bg-white border-gray-300">
       <div className="flex justify-between items-center">
@@ -41,7 +44,13 @@ const Job = () => {
           </Badge>
         </div>
         <div className="flex justify-between my-5">
-          <Button variant="outline" className="">Details</Button>
+          <Button
+            onClick={() => navigate(`/description/${jobId}`)}
+            variant="outline"
+            className=""
+          >
+            Details
+          </Button>
           <Button className="bg-black text-white" variant="outline">
             Save For Later
           </Button>

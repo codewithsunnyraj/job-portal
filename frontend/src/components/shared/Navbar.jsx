@@ -7,8 +7,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { useSelector } from "react-redux";
+import store from "@/redux/store";
 const Navbar = () => {
-  const user = false;
+  // const user = false;
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="py-5 w-full ">
       <div className="container mx-auto">
@@ -61,11 +64,13 @@ const Navbar = () => {
                         variant="link"
                         className="outline-none border-none"
                       >
-                        View Profile
+                        <Link to="/profile">View Profile</Link>
                       </Button>
                     </div>
                     <div>
-                      <Button variant="link">Logout</Button>
+                      <Button variant="link">
+                        <Link to="/logout">Logout</Link>
+                      </Button>
                     </div>
                   </PopoverContent>
                 </Popover>

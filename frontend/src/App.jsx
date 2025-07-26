@@ -5,6 +5,8 @@ import Signup from "./components/auth/Signup";
 import Home from "./pages/Home";
 import Jobs from "./pages/Jobs";
 import Browse from "./pages/Browse";
+import Profile from "./pages/Profile";
+import JobDescription from "./components/JobDescription";
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Route element={<Signup />} path="/signup" />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/browse" element={<Browse />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/description/:id" element={<JobDescription />} />
       </Routes>
     </div>
   );
