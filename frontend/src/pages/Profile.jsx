@@ -22,7 +22,9 @@ const Profile = () => {
           <div className="flex items-center gap-8">
             <Avatar className="">
               <AvatarImage
-                src="https://github.com/shadcn.png"
+                src={
+                  user.profile.profilePhoto || "https://github.com/shadcn.png"
+                }
                 className="h-24 w-24 rounded-full"
               ></AvatarImage>
             </Avatar>
