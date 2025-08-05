@@ -126,9 +126,9 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
-    const file = req.file;
 
     //Cloudinary aayega eidr
+    const file = req.file;
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     let skillArray;
@@ -151,6 +151,7 @@ export const updateProfile = async (req, res) => {
     if (skills) user.profile.skills = skillArray;
     if (cloudResponse) {
       user.profile.resume = cloudResponse.secure_url; //save the cloudinary URL
+      user.profile.resumeOriginalName = file.originalname; // Save the original Name
     }
     await user.save();
 

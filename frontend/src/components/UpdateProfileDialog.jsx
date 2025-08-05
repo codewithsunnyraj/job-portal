@@ -15,18 +15,19 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlice";
+import { Loader2 } from "lucide-react";
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [input, setInput] = useState({
-    fullname: user?.fullname,
-    email: user?.email,
-    phoneNumber: user?.phoneNumber,
-    bio: user?.profile?.bio,
-    skills: user?.profile?.skills?.map((skill) => skill),
-    file: user?.profile?.resume,
+    fullname: user?.fullname || "",
+    email: user?.email || "",
+    phoneNumber: user?.phoneNumber || "",
+    bio: user?.profile?.bio || "",
+    skills: user?.profile?.skills?.map((skill) => skill) || "",
+    file: user?.profile?.resume || "",
   });
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -49,6 +50,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       formData.append("file", input.file);
     }
     try {
+      setLoading(true);
       const res = await axios.post(
         `${USER_API_END_POINT}/profile/update`,
         formData,
@@ -66,6 +68,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
     setOpen(false);
   };

@@ -27,8 +27,8 @@ const Profile = () => {
               ></AvatarImage>
             </Avatar>
             <div>
-              <h1>{user.fullname}</h1>
-              <p>{user.profile.bio}</p>
+              <h1>{user?.fullname}</h1>
+              <p>{user?.profile?.bio}</p>
             </div>
           </div>
           <Button variant="outline" onClick={() => setOpen(true)}>
@@ -38,17 +38,17 @@ const Profile = () => {
         <div className="my-5">
           <div className="flex my-3 items-center gap-5">
             <Mail />
-            <span>{user.email}</span>
+            <span>{user?.email}</span>
           </div>
           <div className="flex items-center gap-5">
             <Contact />
-            <span>{user.phoneNumber}</span>
+            <span>{user?.phoneNumber}</span>
           </div>
         </div>
         <div className="">
           <h1>Skills</h1>
-          {user.profile.skills.length != 0 ? (
-            user.profile.skills.map((items, index) => (
+          {user?.profile?.skills.length != 0 ? (
+            user?.profile?.skills.map((items, index) => (
               <Badge className="px-4 mx-3">{items}</Badge>
             ))
           ) : (
@@ -58,8 +58,8 @@ const Profile = () => {
         <div className="my-5 grid max-w-sm items-center gap-3">
           <Label className="text-md font-bold">Resume</Label>
           {isHaveResume ? (
-            <a href="dfgdfg" target="_blank">
-              Sunny.pdf
+            <a href={user?.profile?.resume} target="_blank">
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span>No resume </span>
