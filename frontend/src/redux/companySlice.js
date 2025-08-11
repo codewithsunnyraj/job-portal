@@ -5,6 +5,7 @@ const companySlice = createSlice({
   initialState: {
     singleCompany: null,
     companies: [],
+    searchCompanyByText: "",
   },
   reducers: {
     //actions
@@ -14,8 +15,12 @@ const companySlice = createSlice({
     setCompaines: (state, action) => {
       state.companies = action.payload;
     },
+    setSearchCompanyByText: (state, action) => {
+      state.searchCompanyByText = action.payload;
+    },
   },
 });
 
-export const { setSingleCompany,setCompaines } = companySlice.actions;
+export const { setSingleCompany, setCompaines, setSearchCompanyByText } =
+  companySlice.actions;
 export default companySlice.reducer;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -16,8 +16,24 @@ import store from "@/redux/store";
 import { useNavigate } from "react-router-dom";
 
 const CompaniesTable = () => {
-  const { companies } = useSelector((store) => store.company);
+  const { companies, searchCompanyByText } = useSelector(
+    (store) => store.company
+  );
+  const [filterCompany, setFilterCompany] = useState(companies);
   const navigate = useNavigate();
+  useEffect(() => {
+    const filterdCompany =
+      companies.length >= 0 &&
+      companies.filter((company) => {
+        if (!searchCompanyByText) {
+          return true;
+        }
+        return company?.name
+          ?.toLowerCase()
+          .includes(searchCompanyByText.toLowerCase());
+      });
+    setFilterCompany(filterdCompany);
+  }, [companies, searchCompanyByText]);
   return (
     <div>
       <Table>
@@ -35,7 +51,7 @@ const CompaniesTable = () => {
             <span>You have no register any company yet</span>
           ) : (
             <>
-              {companies?.map((company) => (
+              {filterCompany?.map((company) => (
                 <tr key={company._id}>
                   <TableCell>
                     <Avatar>
