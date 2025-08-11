@@ -63,7 +63,7 @@ const Signup = () => {
       console.log(error);
       toast.error(error.response.data.message);
     } finally {
-      dispatch(setLoading(false)); 
+      dispatch(setLoading(false));
     }
   };
 
@@ -133,13 +133,13 @@ const Signup = () => {
                 <Input
                   type="radio"
                   name="role"
-                  checked={input.role === "recuiter"}
-                  value="recuiter"
+                  checked={input.role === "recruiter"}
+                  value="recruiter"
                   onChange={changeEventHandler}
-                  id="recuiter"
+                  id="recruiter"
                   className="cursor-pointer h-6 w-6"
                 />
-                <Label htmlFor="recuiter">Recuiter</Label>
+                <Label htmlFor="recruiter">Recruiter</Label>
               </div>
             </RadioGroup>
             <div className="flex my-4 items-center gap-6">

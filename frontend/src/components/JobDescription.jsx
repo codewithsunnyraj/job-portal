@@ -6,7 +6,6 @@ import axios from "axios";
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import { setSingleJob } from "@/redux/jobSlice";
-import store from "@/redux/store";
 import { toast } from "sonner";
 import Navbar from "./shared/Navbar";
 
@@ -17,33 +16,38 @@ const JobDescription = () => {
 
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
-  const isInitiallyApply =
-    singleJob?.applications?.some(
-      (application) => application.applicant === user?._id
-    ) || false;
-  const [isApplied, setIsApplied] = useState(isInitiallyApply);
+
+  const [isApplied, setIsApplied] = useState(false);
+
+  // Fetch Single Job
   useEffect(() => {
     const fetchSingleJobs = async () => {
       try {
         const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
           withCredentials: true,
         });
-        console.log(res);
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job));
-          setIsApplied(
-            res.data.job.applications.some(
-              (application) => application.applicant === user?._id
-            )
-          );
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchSingleJobs();
-  }, [jobId, dispatch, user?._id]);
+  }, [jobId, dispatch]);
 
+  // Check if already applied (run whenever job or user changes)
+  useEffect(() => {
+    if (singleJob?.applications && user?._id) {
+      setIsApplied(
+        singleJob.applications.some(
+          (application) => application.applicant === user._id
+        )
+      );
+    }
+  }, [singleJob, user?._id]);
+
+  // Apply Job Handler
   const applyJobHandler = async () => {
     try {
       const res = await axios.get(
@@ -51,18 +55,17 @@ const JobDescription = () => {
         { withCredentials: true }
       );
       if (res.data.success) {
-        setIsApplied(true); //update local state
+        setIsApplied(true); // local state update
         const updateSingleJob = {
           ...singleJob,
           applications: [...singleJob.applications, { applicant: user?._id }],
         };
-        dispatch(setSingleJob(updateSingleJob)); //update on realtime Ui
+        dispatch(setSingleJob(updateSingleJob)); // update Redux for realtime UI
         toast.success(res.data.message);
-        console.log("Apply Successfully");
       }
     } catch (error) {
       console.log("Error while Applying", error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -101,7 +104,7 @@ const JobDescription = () => {
         </div>
         <div className="my-5">
           <h1 className="font-bold border-b-2 pb-3 border-b-gray-400">
-            Job Descriptions
+            Job Description
           </h1>
         </div>
         <div>
@@ -118,7 +121,7 @@ const JobDescription = () => {
             <span>{singleJob?.description}</span>
           </div>
           <div className="flex items-center my-2 gap-6">
-            <h5 className="font-semibold">Experience</h5>
+            <h5 className="font-semibold">Experience:</h5>
             <span>{singleJob?.experienceLevel} Yrs</span>
           </div>
           <div className="flex items-center my-2 gap-6">
@@ -126,12 +129,16 @@ const JobDescription = () => {
             <span>{singleJob?.salary} LPA</span>
           </div>
           <div className="flex items-center my-2 gap-6">
-            <h5 className="font-semibold">Total Applicants</h5>
-            <span>{singleJob?.applications.length}</span>
+            <h5 className="font-semibold">Total Applicants:</h5>
+            <span>{singleJob?.applications?.length || 0}</span>
           </div>
           <div className="flex items-center my-2 gap-6">
             <h5 className="font-semibold">Posted Date:</h5>
-            <span>{singleJob?.createdAt.split("T")[0]}</span>
+            <span>
+              {singleJob?.createdAt
+                ? singleJob.createdAt.split("T")[0]
+                : "N/A"}
+            </span>
           </div>
         </div>
       </div>

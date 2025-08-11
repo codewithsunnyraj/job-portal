@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { Company } from "../models/company.model.js";
+import getDataUri from "../config/datauri.js";
+import cloudinary from "../config/cloundinary.js";
 
 export const registerCompany = async (req, res) => {
   try {
@@ -95,26 +97,28 @@ export const getCompanyById = async (req, res) => {
 //Update company details
 export const updateCompany = async (req, res) => {
   try {
-    const companyId = req.params.id;
     const { name, description, website, location } = req.body;
+    const companyId = req.params.id;
     const file = req.file;
     //Cloudnary part here
-
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const logo = cloudResponse.secure_url;
     if (!mongoose.Types.ObjectId.isValid(companyId)) {
       return res.status(400).json({
         message: "Invalid Id",
         success: false,
       });
     }
+    const updateData = { name, description, website, location, logo };
 
-    const updateData = { name, description, website, location };
     const company = await Company.findByIdAndUpdate(companyId, updateData, {
       new: true,
     });
     if (!company) {
       return res.status(400).json({
         message: "Error while Updating Company ",
-        success: false, 
+        success: false,
       });
     }
     return res.status(200).json({

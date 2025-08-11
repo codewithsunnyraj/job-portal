@@ -97,13 +97,13 @@ const Login = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="recuiter"
+                  value="recruiter"
                   onChange={changeEventHandler}
-                  checked={input.role === "recuiter"}
-                  id="recuiter"
+                  checked={input.role === "recruiter"}
+                  id="recruiter"
                   className="cursor-pointer h-6 w-6"
                 />
-                <Label htmlFor="recuiter">Recuiter</Label>
+                <Label htmlFor="recruiter">recruiter</Label>
               </div>
             </RadioGroup>
           </div>

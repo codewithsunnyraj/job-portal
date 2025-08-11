@@ -21,7 +21,6 @@ const useGetAllJobs = () => {
     };
     fetchAllJobs();
   }, []);
-  return <div>useGetAllJobs</div>;
 };
 
 export default useGetAllJobs;

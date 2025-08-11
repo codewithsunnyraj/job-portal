@@ -44,15 +44,28 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-6">
             <ul className="space-x-3 flex text-xl font-semibold">
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <li>
-                <Link to="/browse">Browse</Link>
-              </li>
+              {user && user.role === "recruiter" ? (
+                <>
+                  <li>
+                    <Link to="/admin/companies">Compaines</Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/jobs">Jobs</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link to="/jobs">Jobs</Link>
+                  </li>
+                  <li>
+                    <Link to="/browse">Browse</Link>
+                  </li>
+                </>
+              )}
             </ul>
             <div className="cursor-pointer">
               {user ? (
@@ -89,12 +102,19 @@ const Navbar = () => {
                       </div>
                     </div>
                     <div>
-                      <Button
-                        variant="link"
-                        className="outline-none border-none"
-                      >
-                        <Link to="/profile">View Profile</Link>
-                      </Button>
+                      {user && user.role === "recruiter" ? (
+                        <></>
+                      ) : (
+                        <>
+                          {" "}
+                          <Button
+                            variant="link"
+                            className="outline-none border-none"
+                          >
+                            <Link to="/profile">View Profile</Link>
+                          </Button>
+                        </>
+                      )}
                     </div>
                     <div>
                       <Button onClick={logoutHandler} variant="link">
