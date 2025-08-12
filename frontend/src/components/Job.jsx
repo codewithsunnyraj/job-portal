@@ -34,22 +34,22 @@ const Job = ({ jobs }) => {
           </Avatar>
         </Button>
         <div>
-          <h1 className="font-semibold text-xl">{jobs.company.name}</h1>
+          <h1 className="font-semibold text-xl">{jobs?.company?.name}</h1>
           <p>India</p>
         </div>
       </div>
       <div>
-        <h1 className="font-bold">{jobs.title}</h1>
-        <p className="my-4">{jobs.description}</p>
+        <h1 className="font-bold">{jobs?.title}</h1>
+        <p className="my-4">{jobs?.description}</p>
         <div className="flex gap-4 my-4">
           <Badge className="text-blue-700 font-bold" variant="ghost">
-            {jobs.position} positions
+            {jobs?.position} positions
           </Badge>
           <Badge className="text-red-700 font-bold" variant="ghost">
-            {jobs.jobType}
+            {jobs?.jobType}
           </Badge>
           <Badge className="text-green-700 font-bold" variant="ghost">
-            {jobs.salary} LPA
+            {jobs?.salary} LPA
           </Badge>
         </div>
         <div className="flex justify-between my-5">

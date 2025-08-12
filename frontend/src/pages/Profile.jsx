@@ -3,6 +3,7 @@ import Navbar from "@/components/shared/Navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import UpdateProfileDialog from "@/components/UpdateProfileDialog";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import store from "@/redux/store";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
@@ -11,6 +12,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
+  useGetAppliedJobs();
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const isHaveResume = true;
@@ -70,7 +72,7 @@ const Profile = () => {
       </div>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl">
         <h1 className="text-xl font-bold my-3">Applied Jobs</h1>
-        <AppliedJobTable />
+        <AppliedJobTable  />
       </div>
 
       <UpdateProfileDialog open={open} setOpen={setOpen} />

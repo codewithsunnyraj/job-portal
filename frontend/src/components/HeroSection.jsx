@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Button } from "./ui/button";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "@/redux/jobSlice";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const searchJobHandler = () => {
+    dispatch(setSearchQuery(query));
+    navigate("/browse");
+  };
   return (
     <div className="container mx-auto max-w-3xl">
       <div className="text-center">
@@ -24,10 +35,13 @@ const HeroSection = () => {
               <input
                 type="text"
                 name="search"
+                onChange={(e) => setQuery(e.target.value)}
                 className="bg-white py-2 w-[90%] rounded-l-full ps-3"
                 placeholder="Find Your Dream Jobs"
               />
-              <FaMagnifyingGlass className="text-white ml-4 " />
+              <Button onClick={searchJobHandler} className="rounded-r-full ">
+                <FaMagnifyingGlass className="text-white ml-4 " />
+              </Button>
             </div>
           </div>
         </div>
