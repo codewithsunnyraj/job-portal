@@ -34,16 +34,16 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="py-5 w-full ">
+    <div className="py-5 w-full top-0 fixed px-3 md:px-18 bg-black ">
       <div className="container mx-auto">
         <div className="flex justify-between ">
           <div>
-            <h5 className="text-3xl font-bold">
+            <h5 className="text-3xl text-white font-bold">
               Job <span className="text-red-500">Portal</span>
             </h5>
           </div>
           <div className="flex items-center gap-6">
-            <ul className="space-x-3 flex text-xl font-semibold">
+            <ul className="space-x-3 text-white flex text-xl font-semibold">
               {user && user.role === "recruiter" ? (
                 <>
                   <li>
@@ -71,19 +71,19 @@ const Navbar = () => {
               {user ? (
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Avatar className="rounded-full">
+                    <Avatar className="rounded-full ">
                       <AvatarImage
                         src={
                           user.profile.profilePhoto ||
                           "https://github.com/shadcn.png"
                         }
                         alt="skull"
-                        className="h-12 w-12 rounded-full"
+                        className="h-12 w-12 border border-white/50 p-1 rounded-full"
                       />
                     </Avatar>
                   </PopoverTrigger>
-                  <PopoverContent className="w-70 py-6 px-4">
-                    <div className="flex items-center gap-4">
+                  <PopoverContent className="w-70 bg-black rounded-b-xl text-slate-300 py-6 px-4">
+                    <div className="flex items-center mt-6 gap-4">
                       <Avatar>
                         <AvatarImage
                           src={
@@ -91,14 +91,14 @@ const Navbar = () => {
                             "https://github.com/shadcn.png"
                           }
                           alt="skull"
-                          className="h-10 w-10 rounded-full"
+                          className="h-10 w-10  rounded-full"
                         />
                       </Avatar>
                       <div>
                         <h4 className="font-semibold">
                           {user?.fullname || ""}
                         </h4>
-                        <p>{user?.bio || ""}</p>
+                        <p className="text-slate-300">{user?.profile?.bio || ""}</p>
                       </div>
                     </div>
                     <div>
@@ -111,14 +111,18 @@ const Navbar = () => {
                             variant="link"
                             className="outline-none border-none"
                           >
-                            <Link to="/profile">View Profile</Link>
+                            <Link to="/profile" className="text-slate-200">
+                              View Profile
+                            </Link>
                           </Button>
                         </>
                       )}
                     </div>
-                    <div>
+                    <div className="">
                       <Button onClick={logoutHandler} variant="link">
-                        <Link to="/logout">Logout</Link>
+                        <Link to="/logout" className="text-slate-200">
+                          Logout
+                        </Link>
                       </Button>
                     </div>
                   </PopoverContent>
@@ -126,10 +130,14 @@ const Navbar = () => {
               ) : (
                 <div className="flex gap-5">
                   <Link to="/login">
-                    <Button variant="outline">Login</Button>
+                    <Button variant="outline" className="cursor-pointer">
+                      Login
+                    </Button>
                   </Link>
                   <Link to="/signup">
-                    <Button variant="outline">Signup</Button>
+                    <Button variant="outline" className="cursor-pointer">
+                      Signup
+                    </Button>
                   </Link>
                 </div>
               )}

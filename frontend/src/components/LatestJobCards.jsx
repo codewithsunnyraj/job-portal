@@ -6,7 +6,7 @@ const LatestJobCards = ({ job }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="border p-5"
+      className="border bg-white cursor-pointer shadow-secondary p-5"
       onClick={() => navigate(`/description/${job?._id}`)}
     >
       <div>

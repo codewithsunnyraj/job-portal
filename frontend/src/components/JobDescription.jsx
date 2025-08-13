@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useParams } from "react-router-dom";
@@ -16,36 +16,11 @@ const JobDescription = () => {
 
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
-
-  const [isApplied, setIsApplied] = useState(false);
-
-  // Fetch Single Job
-  useEffect(() => {
-    const fetchSingleJobs = async () => {
-      try {
-        const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
-          withCredentials: true,
-        });
-        if (res.data.success) {
-          dispatch(setSingleJob(res.data.job));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSingleJobs();
-  }, [jobId, dispatch]);
-
-  // Check if already applied (run whenever job or user changes)
-  useEffect(() => {
-    if (singleJob?.applications && user?._id) {
-      setIsApplied(
-        singleJob.applications.some(
-          (application) => application.applicant === user._id
-        )
-      );
-    }
-  }, [singleJob, user?._id]);
+  const isIntiallyApplied =
+    singleJob?.applications?.some(
+      (application) => application.applicant === user?._id
+    ) || false;
+  const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
   // Apply Job Handler
   const applyJobHandler = async () => {
@@ -69,10 +44,33 @@ const JobDescription = () => {
     }
   };
 
+  // Fetch Single Job
+  useEffect(() => {
+    const fetchSingleJobs = async () => {
+      try {
+        const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+          withCredentials: true,
+        });
+        // console.log(res.data.job);
+        if (res.data.success) {
+          dispatch(setSingleJob(res.data.job));
+          setIsApplied(
+            res.data.job.applications.some(
+              (application) => application.applicant === user?._id
+            )
+          ); // Ensure the state is in sync with fetched data
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSingleJobs();
+  }, [jobId, dispatch, user?._id]);
+
   return (
     <div className="">
       <Navbar />
-      <div className="my-16 mx-auto max-w-7xl">
+      <div className="mt-24 md:mt-32 container  mx-auto max-w-7xl">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="font-bold text-xl my-4">{singleJob?.title}</h1>
@@ -95,7 +93,7 @@ const JobDescription = () => {
               className={`rounded-lg ${
                 isApplied
                   ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-[#7209b7] hover:bg-[#5f32ad]"
+                  : "bg-[#7209b7] hover:bg-[#5f32ad] cursor-pointer"
               }`}
             >
               {isApplied ? "Already Applied" : "Apply Now"}
@@ -135,9 +133,7 @@ const JobDescription = () => {
           <div className="flex items-center my-2 gap-6">
             <h5 className="font-semibold">Posted Date:</h5>
             <span>
-              {singleJob?.createdAt
-                ? singleJob.createdAt.split("T")[0]
-                : "N/A"}
+              {singleJob?.createdAt ? singleJob.createdAt.split("T")[0] : "N/A"}
             </span>
           </div>
         </div>

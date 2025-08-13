@@ -6,19 +6,20 @@ import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { USER_API_END_POINT } from "@/utils/constant";
+import { assets, USER_API_END_POINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import store from "@/redux/store";
 import { Loader, Loader2 } from "lucide-react";
+import Footer from "../shared/Footer";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
-  const { loading,user } = useSelector((store) => store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const changeEventHandler = (e) => {
@@ -56,78 +57,102 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex my-32 justify-center items-center">
-        <form className="border w-1/2 rounded-lg p-8" onSubmit={submitHandler}>
+      <div className="container px-8 lg:px-0 mx-auto md:mt-28 mt-40 md:mb-10 max-w-7xl">
+        <div className="grid grid-cols-1 gap-6 md:gap-14 lg:grid-cols-2">
           <div>
-            <h4 className="text-2xl text-center font-bold">Login</h4>
+            <form className="border  rounded-lg p-8" onSubmit={submitHandler}>
+              <div>
+                <h4 className="text-2xl text-center font-bold">Login</h4>
+              </div>
+              <div className="my-4">
+                <Label className="font-bold">Email</Label>
+                <Input
+                  placeholder="Enter EmailId"
+                  name="email"
+                  id="email"
+                  value={input.email}
+                  onChange={changeEventHandler}
+                  type="email"
+                  className="focus-visible:ring-0"
+                />
+              </div>
+
+              <div className="my-4">
+                <Label className="font-bold">Password</Label>
+                <Input
+                  placeholder="Enter Password"
+                  name="password"
+                  id="password"
+                  onChange={changeEventHandler}
+                  value={input.password}
+                  type="password"
+                  className="focus-visible:ring-0"
+                />
+              </div>
+              <div>
+                <RadioGroup className="flex mt-8 mb-5 gap-8">
+                  <div className="flex gap-2 items-center">
+                    <Input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      checked={input.role === "student"}
+                      id="student"
+                      onChange={changeEventHandler}
+                      className="cursor-pointer w-6 h-6"
+                    />
+                    <Label htmlFor="student" className="cursor-pointer">
+                      Student
+                    </Label>
+                  </div>
+                  <div className="flex cursor-pointer gap-2 items-center">
+                    <Input
+                      type="radio"
+                      name="role"
+                      value="recruiter"
+                      onChange={changeEventHandler}
+                      checked={input.role === "recruiter"}
+                      id="recruiter"
+                      className="cursor-pointer h-6 w-6"
+                    />
+                    <Label htmlFor="recruiter" className="cursor-pointer">
+                      recruiter
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              {loading ? (
+                <Button className="w-full my-4">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please Wait
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer py-3 my-4"
+                >
+                  Login
+                </Button>
+              )}
+
+              <span className="block text-center">
+                No Account ?{" "}
+                <Link to="/signup" className="text-red-500">
+                  SignUp
+                </Link>
+              </span>
+            </form>
           </div>
-          <div className="my-4">
-            <Label className="font-bold">Email</Label>
-            <Input
-              placeholder="Enter EmailId"
-              name="email"
-              id="email"
-              value={input.email}
-              onChange={changeEventHandler}
-              type="email"
+          <div className="flex items-center">
+            <img
+              src={assets.login}
+              alt="login"
+              className="rounded-l-3xl border p-3 border-slate-500"
             />
           </div>
-
-          <div className="my-4">
-            <Label className="font-bold">Password</Label>
-            <Input
-              placeholder="Enter Password"
-              name="password"
-              id="password"
-              onChange={changeEventHandler}
-              value={input.password}
-              type="password"
-            />
-          </div>
-          <div>
-            <RadioGroup className="flex mt-8 mb-5 gap-8">
-              <div className="flex gap-2 items-center">
-                <Input
-                  type="radio"
-                  name="role"
-                  value="student"
-                  checked={input.role === "student"}
-                  id="student"
-                  onChange={changeEventHandler}
-                  className="cursor-pointer w-6 h-6"
-                />
-                <Label htmlFor="student">Student</Label>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Input
-                  type="radio"
-                  name="role"
-                  value="recruiter"
-                  onChange={changeEventHandler}
-                  checked={input.role === "recruiter"}
-                  id="recruiter"
-                  className="cursor-pointer h-6 w-6"
-                />
-                <Label htmlFor="recruiter">recruiter</Label>
-              </div>
-            </RadioGroup>
-          </div>
-          {loading ? (
-            <Button className="w-full my-4">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please Wait
-            </Button>
-          ) : (
-            <Button type="submit" className="w-full cursor-pointer py-3 my-4">
-              Login
-            </Button>
-          )}
-
-          <span>
-            No Account<Link to="/signup">SignUp</Link>
-          </span>
-        </form>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

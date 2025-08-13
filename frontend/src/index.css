@@ -118,3 +118,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.bg-home{
+  background-image: url("./assets/bg-home.png");
+}

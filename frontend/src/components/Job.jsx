@@ -15,7 +15,7 @@ const Job = ({ jobs }) => {
   };
   // const jobId = "dfgdfg dfgdfgdg";
   return (
-    <div className="p-5 rounded-sm shadow-xl bg-white border-gray-300">
+    <div className="p-5 rounded-sm shadow-xl bg-white border border-gray-300">
       <div className="flex justify-between items-center">
         <p className="text-gray-600">
           {" "}
@@ -56,11 +56,14 @@ const Job = ({ jobs }) => {
           <Button
             onClick={() => navigate(`/description/${jobs._id}`)}
             variant="outline"
-            className=""
+            className="cursor-pointer"
           >
             Details
           </Button>
-          <Button className="bg-black text-white" variant="outline">
+          <Button
+            className="bg-black text-white cursor-pointer"
+            variant="outline"
+          >
             Save For Later
           </Button>
         </div>

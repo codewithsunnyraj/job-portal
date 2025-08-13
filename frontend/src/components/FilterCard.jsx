@@ -1,6 +1,6 @@
 import { setSearchQuery } from "@/redux/jobSlice";
 import { Label } from "@radix-ui/react-label";
-import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -31,7 +31,7 @@ const FilterCard = () => {
     <div>
       <div className="">
         <h1>Filter Jobs</h1>
-        <hr className="mt-5" />
+        <hr className="mt-2 mb-4 bg-slate-500 h-[2px]" />
         <RadioGroup value={selectedValue} onValueChange={changeHandler}>
           {filterData.map((items, index) => (
             <div>
@@ -40,8 +40,14 @@ const FilterCard = () => {
                 const itemId = `r${index}-${idx}`;
                 return (
                   <div className="flex items-center space-x-2 my-2">
-                    <RadioGroupItem value={item} id={itemId} />
-                    <Label htmlFor={itemId}>{item}</Label>
+                    <RadioGroupItem
+                      value={item}
+                      id={itemId}
+                      className="cursor-pointer border border-slate-600"
+                    />
+                    <Label htmlFor={itemId} className="cursor-pointer">
+                      {item}
+                    </Label>
                   </div>
                 );
               })}
