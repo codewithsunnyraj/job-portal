@@ -84,7 +84,6 @@ export const getAppliedJobs = async (req, res) => {
 export const getApplicants = async (req, res) => {
   try {
     const jobId = req.params.id;
-    console.log(jobId);
     if (!jobId) {
       return res.status(400).json({
         message: "Please Provide Job Id",

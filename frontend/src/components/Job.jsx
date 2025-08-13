@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 const Job = ({ jobs }) => {
   const navigate = useNavigate();
-
   const daysAgoFunction = (monodbTime) => {
     const currentTime = new Date();
     const createdAt = new Date(monodbTime);
@@ -28,9 +27,9 @@ const Job = ({ jobs }) => {
         </Button>
       </div>
       <div className="flex items-center gap-2 my-3">
-        <Button className="p-6" variant="outline" size="icon">
+        <Button className="h-20 w-20 p-2 rounded-full" variant="outline" size="icon">
           <Avatar>
-            <AvatarImage src="https://tse2.mm.bing.net/th/id/OIP.5jqrgu6exFLl0bk-hxBdyQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"></AvatarImage>
+            <AvatarImage src={jobs?.company?.logo}></AvatarImage>
           </Avatar>
         </Button>
         <div>

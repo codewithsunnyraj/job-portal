@@ -19,7 +19,7 @@ const Profile = () => {
   return (
     <div className="w-full">
       <Navbar />
-      <div className="max-w-5xl border rounded-sm border-gray-500 p-6 my-20 mx-auto ">
+      <div className=" mt-24 md:mt-32 container   max-w-5xl border rounded-sm border-gray-500 p-6 my-20 mx-auto ">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Avatar className="">
@@ -35,7 +35,7 @@ const Profile = () => {
               <p>{user?.profile?.bio}</p>
             </div>
           </div>
-          <Button variant="outline" onClick={() => setOpen(true)}>
+          <Button variant="outline" className="cursor-pointer" onClick={() => setOpen(true)}>
             <Pen />
           </Button>
         </div>
@@ -72,7 +72,7 @@ const Profile = () => {
       </div>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl">
         <h1 className="text-xl font-bold my-3">Applied Jobs</h1>
-        <AppliedJobTable  />
+        <AppliedJobTable />
       </div>
 
       <UpdateProfileDialog open={open} setOpen={setOpen} />

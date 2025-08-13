@@ -11,6 +11,7 @@ const Browse = () => {
   useGetAllJobs();
   const dispatch = useDispatch();
   const { allJobs } = useSelector((store) => store.job);
+  console.log("aiii", allJobs);
   useEffect(() => {
     return () => {
       dispatch(setSearchQuery(""));
@@ -19,9 +20,9 @@ const Browse = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-7xl mx-auto my-20">
+      <div className="max-w-7xl md:mt-36 mt-28 mx-auto container">
         <div>
-          <h1 className="font-bold text-xl">
+          <h1 className="font-bold mb-4 text-xl">
             Search Results ({allJobs.length})
           </h1>
         </div>

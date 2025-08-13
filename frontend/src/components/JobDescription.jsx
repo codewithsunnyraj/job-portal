@@ -17,9 +17,10 @@ const JobDescription = () => {
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
   const isIntiallyApplied =
-    singleJob?.applications?.some(
-      (application) => application.applicant === user?._id
-    ) || false;
+    singleJob?.applications?.some((application) => {
+      console.log("debug", application.applicant);
+      application.applicant === user?._id;
+    }) || false;
   const [isApplied, setIsApplied] = useState(isIntiallyApplied);
 
   // Apply Job Handler
